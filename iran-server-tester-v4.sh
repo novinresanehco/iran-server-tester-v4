@@ -107,7 +107,7 @@ run_probe_server() {
     echo ""
     local RESP="HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nX-Iran-Probe: v${VERSION}\r\n\r\nPROBE_OK|v=${VERSION}|ts=$(date +%s)\r\n"
     while true; do
-        local RAW; RAW=$(printf '%b' "$RESP" | timeout 15 nc -l -p "$PROBE_PORT" -q 2 2>/dev/null)
+        local RAW; RAW=$(printf '%b' "$RESP" | timeout 15 nc -l "$PROBE_PORT" -q 2 2>/dev/null)
         if [[ $? -eq 0 ]]; then
             local TS; TS=$(date '+%H:%M:%S')
             local ISP; ISP=$(echo "$RAW" | grep -oP 'isp=[^|&\r\n]+' | cut -d= -f2-)
